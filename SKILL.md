@@ -97,9 +97,20 @@ If no argument is provided → proceed to step 1 (default git diff review).
 - Load `references/code-quality-checklist.md` for coverage.
 - Check for:
   - **Error handling**: swallowed exceptions, overly broad catch, missing error handling, async errors
-  - **Performance**: N+1 queries, CPU-intensive ops in hot paths, missing cache, unbounded memory
   - **Boundary conditions**: null/undefined handling, empty collections, numeric boundaries, off-by-one
 - Flag issues that may cause silent failures or production incidents.
+
+### 5.5) Performance scan
+
+- Load `references/performance-checklist.md` for coverage.
+- Check for:
+  - **Algorithmic complexity**: nested loops O(n²), linear search instead of hash, sort inside loop, recursion without memoization
+  - **Memory leaks**: unsubscribed listeners, uncleaned timers, closures capturing large objects, unbounded collections, missing resource cleanup
+  - **CPU hot paths**: expensive ops in loops, blocking sync I/O, redundant computation
+  - **Database & I/O**: N+1 queries, over-fetching, missing pagination, missing indexes
+  - **Caching**: missing cache, no TTL, no invalidation, key collisions
+- For each finding, estimate impact: note input size sensitivity and expected degradation pattern.
+- All performance findings go into the dedicated `## Performance` section of the output (not into general Findings).
 
 ### 6) Output format
 
@@ -132,6 +143,20 @@ Structure your review as follows:
 
 ### P3 - Low
 ...
+
+---
+
+## Performance
+
+**Complexity issues**: (none or list)
+**Memory & resource leaks**: (none or list)
+**I/O & caching**: (none or list)
+
+Each finding format:
+1. **[file:line]** Brief title — **O(n²)** / **leak** / **hot path** / etc.
+   - Description: what happens, under what conditions
+   - Impact: how it degrades (e.g., "quadratic growth with input size")
+   - Suggested fix
 
 ---
 
@@ -186,5 +211,6 @@ Please choose an option or provide specific instructions.
 | `solid-checklist.md` | General SOLID smell prompts and refactor heuristics |
 | `solid-react-checklist.md` | React-specific SOLID patterns: god-hooks, wide interfaces, component anti-patterns |
 | `security-checklist.md` | Web/app security and runtime risk checklist |
-| `code-quality-checklist.md` | Error handling, performance, boundary conditions |
+| `code-quality-checklist.md` | Error handling, boundary conditions |
+| `performance-checklist.md` | Big O complexity, memory leaks, CPU hot paths, I/O, caching, profiling |
 | `removal-plan.md` | Template for deletion candidates and follow-up plan |

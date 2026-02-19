@@ -18,7 +18,7 @@ npx agent-skills-cli install @lordprotein/lp-smart-code-core-review
 
 - **SOLID Principles** - Detect SRP, OCP, LSP, ISP, DIP violations
 - **Security Scan** - XSS, injection, SSRF, race conditions, auth gaps, secrets leakage
-- **Performance** - N+1 queries, CPU hotspots, missing cache, memory issues
+- **Performance** - Big O complexity analysis, memory leak detection, N+1 queries, CPU hotspots, caching issues
 - **Error Handling** - Swallowed exceptions, async errors, missing boundaries
 - **Boundary Conditions** - Null handling, empty collections, off-by-one, numeric limits
 - **Removal Planning** - Identify dead code with safe deletion plans
@@ -54,8 +54,9 @@ The argument is interpreted flexibly — it can be a file path, folder, class/fu
 2. **SOLID + Architecture** - Check design principles
 3. **Removal Candidates** - Find dead/unused code
 4. **Security Scan** - Vulnerability detection
-5. **Code Quality** - Error handling, performance, boundaries
-6. **Output** - Findings by severity (P0-P3)
+5. **Code Quality** - Error handling, boundaries
+5.5. **Performance** - Complexity, memory leaks, CPU, I/O, caching
+6. **Output** - Findings by severity (P0-P3) + dedicated Performance section
 7. **Confirmation** - Ask user before implementing fixes
 
 ## Severity Levels
@@ -75,10 +76,11 @@ lp-smart-code-core-review/
 ├── agents/
 │   └── agent.yaml           # Agent interface config
 └── references/
-    ├── solid-checklist.md   # SOLID smell prompts
-    ├── security-checklist.md    # Security & reliability
-    ├── code-quality-checklist.md # Error, perf, boundaries
-    └── removal-plan.md      # Deletion planning template
+    ├── solid-checklist.md         # SOLID smell prompts
+    ├── security-checklist.md      # Security & reliability
+    ├── code-quality-checklist.md  # Error handling, boundaries
+    ├── performance-checklist.md   # Big O, memory leaks, CPU, I/O, caching
+    └── removal-plan.md            # Deletion planning template
 ```
 
 ## References
@@ -87,7 +89,8 @@ Each checklist provides detailed prompts and anti-patterns:
 
 - **solid-checklist.md** - SOLID violations + common code smells
 - **security-checklist.md** - OWASP risks, race conditions, crypto, supply chain
-- **code-quality-checklist.md** - Error handling, caching, N+1, null safety
+- **code-quality-checklist.md** - Error handling, null safety, boundary conditions
+- **performance-checklist.md** - Big O complexity, memory leaks, CPU hot paths, database & I/O, caching, profiling mindset
 - **removal-plan.md** - Safe vs deferred deletion with rollback plans
 
 ## License
