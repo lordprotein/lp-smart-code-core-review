@@ -68,7 +68,7 @@ If no argument is provided → proceed to step 1 (default git diff review).
 4. **OCP scan**: Search for hardcoded type/category/status checks in generic components (`if (type ===`, `switch(status)`, magic numbers with conditional display).
 5. **DIP scan**: Check if components import store slice internals directly vs. using abstraction hooks.
 6. **LSP scan**: Check for `as Type` casts bypassing type safety, ignored props, conditional children rendering.
-7. **Record findings** into a dedicated `## SOLID Audit` section in the output (see step 6 output format). This section is **required** even if no SOLID issues are found — in that case, list what was checked.
+7. **Record findings** into a dedicated `## SOLID Audit` section in the output (see step 6 output format). This section is **required** even if no SOLID issues are found — in that case, state what code units were checked and that no violations were found.
 
 - When you propose a refactor, explain *why* it improves cohesion/coupling and outline a minimal, safe split.
 - If refactor is non-trivial, propose an incremental plan instead of a large rewrite.
@@ -122,8 +122,12 @@ Structure your review as follows:
 | Code Unit | SRP | ISP | OCP | DIP | LSP | Verdict |
 |-----------|-----|-----|-----|-----|-----|---------|
 | `useMyHook` | Multiple responsibilities: fetch + filter + reset | 3 consumers use 2/6 fields each | — | — | — | P1 |
-| `MyComponent` | OK | — | Hardcoded type check | — | `as Type` cast | P2 |
-| `utilFunction` | OK | — | OK | — | — | Clean |
+| `MyComponent` | — | — | Hardcoded type check | — | `as Type` cast | P2 |
+
+**Table rules:**
+- Never write "OK" in cells — use "—" when a principle has no violations
+- Only include code units that have at least one violation (Verdict ≠ Clean)
+- Code units with no violations are omitted from the table entirely
 
 (For each flagged unit, provide a brief description of the violation and suggested fix below the table)
 
