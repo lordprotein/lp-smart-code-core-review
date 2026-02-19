@@ -1,13 +1,18 @@
 ---
 name: lp-smart-code-review
-description: "Expert code review of current git changes with a senior engineer lens. Detects SOLID violations, security risks, and proposes actionable improvements."
+description: "Expert code review with a senior engineer lens. Reviews git changes or targeted code (files, folders, features). Detects SOLID violations, security risks, and proposes actionable improvements."
 ---
 
 # Code Review Expert
 
 ## Overview
 
-Perform a structured review of the current git changes with focus on SOLID, architecture, removal candidates, and security risks. Default to review-only output unless the user asks to implement changes.
+Perform a structured code review with focus on SOLID, architecture, removal candidates, and security risks. Default to review-only output unless the user asks to implement changes.
+
+**Two modes of operation:**
+
+- **Default mode** (no argument): Reviews current git changes via `git diff`.
+- **Targeted review mode** (with argument): Reviews specific code — a file path, folder, feature name, function, or keyword. The argument is interpreted flexibly: it can be a path (`src/auth/`), an entity name (`PaymentService`), or a description (`логика корзины`).
 
 ## Severity Levels
 
@@ -20,7 +25,26 @@ Perform a structured review of the current git changes with focus on SOLID, arch
 
 ## Workflow
 
+### 0) Mode detection
+
+If the user provides an argument (text after the skill command), switch to **targeted review mode**:
+
+1. **Determine target type**:
+   - If argument looks like a file/directory path → read those files directly
+   - If argument is a name/keyword (e.g. "auth", "PaymentService", "роутинг") → use `rg`, `grep`, `find` to locate all related files, functions, classes, and modules
+   - If argument is a description (e.g. "логика оплаты") → search for related code by keywords
+
+2. **Scope the review**:
+   - List all discovered files and ask the user to confirm the scope
+   - If too many files found (>10), suggest narrowing down or review in batches
+
+3. **Proceed to step 2** (skip git diff in step 1, review the discovered code instead)
+
+If no argument is provided → proceed to step 1 (default git diff review).
+
 ### 1) Preflight context
+
+> **Note**: In targeted review mode (step 0), this step is skipped — the review scope is already established.
 
 - Use `git status -sb`, `git diff --stat`, and `git diff` to scope changes.
 - If needed, use `rg` or `grep` to find related modules, usages, and contracts.

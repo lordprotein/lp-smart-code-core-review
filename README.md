@@ -33,9 +33,24 @@ After installation, simply run:
 
 The skill will automatically review your current git changes.
 
+### Targeted review
+
+You can also pass an argument to review specific code instead of git changes:
+
+```
+/lp-smart-code-review src/auth/               # review all files in the auth folder
+/lp-smart-code-review src/services/payment.ts  # review a specific file
+/lp-smart-code-review auth                     # find and review everything related to auth
+/lp-smart-code-review PaymentService           # find and review PaymentService code
+/lp-smart-code-review логика корзины           # search and review cart logic by keywords
+```
+
+The argument is interpreted flexibly — it can be a file path, folder, class/function name, or a description of the feature to review.
+
 ## Workflow
 
-1. **Preflight** - Scope changes via `git diff`
+0. **Mode Detection** - Targeted review (argument) or git diff (default)
+1. **Preflight** - Scope changes via `git diff` (skipped in targeted mode)
 2. **SOLID + Architecture** - Check design principles
 3. **Removal Candidates** - Find dead/unused code
 4. **Security Scan** - Vulnerability detection
