@@ -5,13 +5,13 @@ A comprehensive code review skill for AI agents. Performs structured reviews wit
 ## Installation
 
 ```bash
-npx skills add lordprotein/lp-smart-code-core-review
+npx skills add lordprotein/smart-code-review
 ```
 
 Or via Agent Skills:
 
 ```bash
-npx agent-skills-cli install @lordprotein/lp-smart-code-core-review
+npx agent-skills-cli install @lordprotein/smart-code-review
 ```
 
 ## Features
@@ -28,7 +28,7 @@ npx agent-skills-cli install @lordprotein/lp-smart-code-core-review
 After installation, simply run:
 
 ```
-/lp-smart-code-review
+/smart-code-review
 ```
 
 The skill will automatically review your current git changes.
@@ -38,11 +38,11 @@ The skill will automatically review your current git changes.
 You can also pass an argument to review specific code instead of git changes:
 
 ```
-/lp-smart-code-review src/auth/               # review all files in the auth folder
-/lp-smart-code-review src/services/payment.ts  # review a specific file
-/lp-smart-code-review auth                     # find and review everything related to auth
-/lp-smart-code-review PaymentService           # find and review PaymentService code
-/lp-smart-code-review логика корзины           # search and review cart logic by keywords
+/smart-code-review src/auth/               # review all files in the auth folder
+/smart-code-review src/services/payment.ts  # review a specific file
+/smart-code-review auth                     # find and review everything related to auth
+/smart-code-review PaymentService           # find and review PaymentService code
+/smart-code-review логика корзины           # search and review cart logic by keywords
 ```
 
 The argument is interpreted flexibly — it can be a file path, folder, class/function name, or a description of the feature to review.
@@ -71,7 +71,7 @@ The argument is interpreted flexibly — it can be a file path, folder, class/fu
 ## Structure
 
 ```
-lp-smart-code-core-review/
+smart-code-review/
 ├── SKILL.md                 # Main skill definition
 ├── agents/
 │   └── agent.yaml           # Agent interface config

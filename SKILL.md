@@ -1,5 +1,5 @@
 ---
-name: lp-smart-code-review
+name: smart-code-review
 description: "Expert code review with a senior engineer lens. Reviews git changes or targeted code (files, folders, features). Detects SOLID violations, security risks, and proposes actionable improvements."
 ---
 
