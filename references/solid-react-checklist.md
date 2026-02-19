@@ -246,16 +246,3 @@ export const MyComponent = () => { ... }
 // Good: initialize in app setup or lazy init
 ```
 
----
-
-## SOLID Audit Procedure
-
-When reviewing React code, follow this systematic procedure:
-
-1. **Inventory**: List all hooks, components, and utility modules in scope
-2. **SRP scan**: For each hook/component, answer: "What is the single reason this would change?" If multiple — flag it
-3. **ISP scan**: For each hook that returns an object, list consumers and check which fields each uses. If fragmented — flag it
-4. **OCP scan**: Search for `if (type ===`, `switch(status)`, domain-specific hardcoded checks in generic components
-5. **DIP scan**: Check if components import store internals directly vs. using abstraction hooks
-6. **LSP scan**: Check for `as Type` casts, ignored props, conditional children rendering
-7. **Record findings** in the SOLID Audit table (see SKILL.md output format)

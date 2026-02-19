@@ -80,9 +80,7 @@ CORRECT:
 🔴 Critical
 ```
 
-## Examples by category
-
-### 🛡 Security & Reliability
+## Compact example
 
 1. SQL injection via unsanitized input
 
@@ -104,91 +102,4 @@ Use parameterized query.
 db.query('SELECT * FROM users WHERE id = $1', [req.params.id])
 ```
 
----
-
-2. Unvalidated redirect URL
-
-**Status:**
-🟡 Medium
-
-**Files:**
-- `auth/callback.ts:18`
-
-**Description:**
-Redirect URL taken from query param without validation.
-```ts
-res.redirect(req.query.returnUrl)
-```
-
-**Fix:**
-Validate against allowlist.
-```ts
-const safe = allowedUrls.includes(req.query.returnUrl) ? req.query.returnUrl : '/'
-res.redirect(safe)
-```
-
-### 🏗 Architecture & SOLID
-
-1. God-hook violates ISP
-
-**Status:**
-🟠 High
-
-**Files:**
-- `hooks/useApp.ts:1`
-
-**Description:**
-`useApp()` returns 12 fields but consumers use 2-3. Violates ISP.
-```ts
-useApp()
-```
-
-**Fix:**
-Split into focused hooks.
-```ts
-useAuth(), useProfile()
-```
-
-### ⚡ Performance
-
-1. Nested iteration — **O(n²)**
-
-**Status:**
-🟡 Medium
-
-**Files:**
-- `utils/merge.ts:42`
-
-**Description:**
-Nested iteration degrades on large lists.
-```ts
-items.forEach(() => list.find(...))
-```
-
-**Fix:**
-Replace with Map lookup.
-```ts
-const map = new Map(list.map(x => [x.id, x]))
-```
-
-### 🧹 Code Quality
-
-1. Swallowed exception
-
-**Status:**
-🟢 Low
-
-**Files:**
-- `services/api.ts:42`
-
-**Description:**
-Silently swallows error — failures invisible in production.
-```ts
-catch (e) {}
-```
-
-**Fix:**
-Add logging.
-```ts
-catch (e) { logger.error(e); }
-```
+Note: follow the same structure for all categories (Security, Architecture, Performance, Quality). Numbering restarts at 1 per category. Use `---` between findings within a category (not after the last one).

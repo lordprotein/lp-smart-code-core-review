@@ -75,10 +75,18 @@ If no argument is provided → proceed to step 1 (default git diff review).
 
 ### 3) Removal candidates + iteration plan
 
-- Load `references/removal-plan.md` for template.
 - Identify code that is unused, redundant, or feature-flagged off.
-- Distinguish **safe delete now** vs **defer with plan**.
-- Provide a follow-up plan with concrete steps and checkpoints (tests/metrics).
+- Classify each candidate into two categories:
+  - **Safe to remove now**: no active consumers, evidence of non-usage (0 references, dead flag). List location, rationale, deletion steps, verification.
+  - **Defer removal (plan required)**: has consumers or needs migration. Note preconditions, breaking changes, migration steps, timeline, rollback plan.
+- **Checklist before any removal**:
+  - [ ] Searched codebase for all references (`rg`, `grep`)
+  - [ ] Checked for dynamic/reflection-based usage
+  - [ ] Verified no external consumers (APIs, SDKs, docs)
+  - [ ] Feature flag telemetry reviewed (if applicable)
+  - [ ] Tests updated/removed
+  - [ ] Documentation updated
+  - [ ] Team notified (if shared code)
 
 ### 4) Security and reliability scan
 
@@ -90,6 +98,7 @@ If no argument is provided → proceed to step 1 (default git diff review).
   - Rate limits, unbounded loops, CPU/memory hotspots
   - Unsafe deserialization, weak crypto, insecure defaults
   - **Race conditions**: concurrent access, check-then-act, TOCTOU, missing locks
+  - **New dependencies**: If new packages were added, check justification (could stdlib solve it?), maintenance status, and bundle size impact. Flag unjustified or unmaintained additions as 🟡 Medium.
 - Call out both **exploitability** and **impact**.
 
 ### 5) Code quality scan
@@ -98,9 +107,11 @@ If no argument is provided → proceed to step 1 (default git diff review).
 - Check for:
   - **Error handling**: swallowed exceptions, overly broad catch, missing error handling, async errors
   - **Boundary conditions**: null/undefined handling, empty collections, numeric boundaries, off-by-one
+  - **Test coverage gap**: If changed code lacks corresponding test updates, flag as 🟡 Medium. Note which behaviors are untested. Do NOT write tests — only flag the gap.
+  - **Breaking changes**: Check for renamed/removed public APIs, changed function signatures, altered response shapes, removed exports. If the change is in a shared library or API layer, flag breaking changes as 🟠 High with migration guidance.
 - Flag issues that may cause silent failures or production incidents.
 
-### 5.5) Performance scan
+### 6) Performance scan
 
 - Load `references/performance-checklist.md` for coverage.
 - Check for:
@@ -112,7 +123,7 @@ If no argument is provided → proceed to step 1 (default git diff review).
 - For each finding, estimate impact: note input size sensitivity and expected degradation pattern.
 - All performance findings go into the `### ⚡ Performance` category within the `## Findings` section.
 
-### 6) Output format
+### 7) Output format
 
 Load `references/finding-format.md` for the per-finding template and formatting rules.
 
@@ -151,19 +162,12 @@ Structure your review as follows:
 (optional improvements, not blocking)
 ````
 
-**Inline comments**: Use this format for file-specific findings:
-```
-::code-comment{file="path/to/file.ts" line="42" severity="high"}
-Description of the issue and suggested fix.
-::
-```
-
 **Clean review**: If no issues found, explicitly state:
 - What was checked
 - Any areas not covered (e.g., "Did not verify database migrations")
 - Residual risks or recommended follow-up tests
 
-### 7) Next steps confirmation
+### 8) Next steps confirmation
 
 After presenting findings, ask user how to proceed:
 
@@ -184,16 +188,3 @@ I found X issues (🔴 Critical: _, 🟠 High: _, 🟡 Medium: _, 🟢 Low: _).
 
 **Important**: Do NOT implement any changes until user explicitly confirms. This is a review-first workflow.
 
-## Resources
-
-### references/
-
-| File | Purpose |
-|------|---------|
-| `finding-format.md` | Per-finding template, formatting rules, and examples by category |
-| `solid-checklist.md` | General SOLID smell prompts and refactor heuristics |
-| `solid-react-checklist.md` | React-specific SOLID patterns: god-hooks, wide interfaces, component anti-patterns |
-| `security-checklist.md` | Web/app security and runtime risk checklist |
-| `code-quality-checklist.md` | Error handling, boundary conditions |
-| `performance-checklist.md` | Big O complexity, memory leaks, CPU hot paths, I/O, caching, profiling |
-| `removal-plan.md` | Template for deletion candidates and follow-up plan |

@@ -54,10 +54,10 @@ The argument is interpreted flexibly — it can be a file path, folder, class/fu
 2. **SOLID + Architecture** - Check design principles
 3. **Removal Candidates** - Find dead/unused code
 4. **Security Scan** - Vulnerability detection
-5. **Code Quality** - Error handling, boundaries
-5.5. **Performance** - Complexity, memory leaks, CPU, I/O, caching
-6. **Output** - Findings by category (Security, Architecture, Performance, Quality) with severity badges
-7. **Confirmation** - Ask user before implementing fixes
+5. **Code Quality** - Error handling, boundaries, test coverage gaps, breaking changes
+6. **Performance** - Complexity, memory leaks, CPU, I/O, caching
+7. **Output** - Findings by category (Security, Architecture, Performance, Quality) with severity badges
+8. **Confirmation** - Ask user before implementing fixes
 
 ## Severity Levels
 
@@ -77,10 +77,11 @@ lp-smart-code-core-review/
 │   └── agent.yaml           # Agent interface config
 └── references/
     ├── solid-checklist.md         # SOLID smell prompts
+    ├── solid-react-checklist.md   # React-specific SOLID patterns
     ├── security-checklist.md      # Security & reliability
     ├── code-quality-checklist.md  # Error handling, boundaries
     ├── performance-checklist.md   # Big O, memory leaks, CPU, I/O, caching
-    └── removal-plan.md            # Deletion planning template
+    └── finding-format.md          # Per-finding template and formatting rules
 ```
 
 ## References
@@ -88,10 +89,11 @@ lp-smart-code-core-review/
 Each checklist provides detailed prompts and anti-patterns:
 
 - **solid-checklist.md** - SOLID violations + common code smells
+- **solid-react-checklist.md** - React-specific SOLID patterns: god-hooks, wide interfaces, anti-patterns
 - **security-checklist.md** - OWASP risks, race conditions, crypto, supply chain
 - **code-quality-checklist.md** - Error handling, null safety, boundary conditions
 - **performance-checklist.md** - Big O complexity, memory leaks, CPU hot paths, database & I/O, caching, profiling mindset
-- **removal-plan.md** - Safe vs deferred deletion with rollback plans
+- **finding-format.md** - Per-finding template, formatting rules
 
 ## License
 
