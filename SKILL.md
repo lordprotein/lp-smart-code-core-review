@@ -130,36 +130,32 @@ Structure your review as follows:
 
 ### 🛡 Security & Reliability
 
-1. 🔴 Critical | Brief title
-   **Files:** `file.ts:42`
-   Description of issue. Exploitability and impact.
-   **Fix:** Suggested fix
+1. **[file:line]** Brief title — 🔴 Critical
+   - Description of issue
+   - Exploitability and impact
+   - Suggested fix
 
-2. 🟡 Medium | Brief title
-   **Files:** `file.ts:10`
-   Description...
-   **Fix:** ...
+2. **[file:line]** Brief title — 🟡 Medium
+   - Description...
 
 ### 🏗 Architecture & SOLID
 
-1. 🟠 High | Brief title
-   **Files:** `file.ts:42`
-   Description. Which principle violated (SRP/OCP/LSP/ISP/DIP).
-   **Fix:** Suggested fix
+3. **[file:line]** Brief title — 🟠 High
+   - Description of issue
+   - Which principle violated (SRP/OCP/LSP/ISP/DIP)
+   - Suggested fix
 
 ### ⚡ Performance
 
-1. 🟡 Medium | Brief title — **O(n²)** / **leak** / **hot path**
-   **Files:** `file.ts:42`
-   Description: what happens, under what conditions. Impact: how it degrades.
-   **Fix:** Suggested fix
+4. **[file:line]** Brief title — 🟡 Medium — **O(n²)** / **leak** / **hot path**
+   - Description: what happens, under what conditions
+   - Impact: how it degrades
+   - Suggested fix
 
 ### 🧹 Code Quality
 
-1. 🟢 Low | Brief title
-   **Files:** `file.ts:42`
-   Description...
-   **Fix:** ...
+5. **[file:line]** Brief title — 🟢 Low
+   - Description...
 
 ### 🗑 Removal Candidates
 (if applicable)
@@ -172,7 +168,7 @@ Structure your review as follows:
 
 **Format rules:**
 - Empty categories are **not rendered** (if no Security findings — no Security section)
-- Numbering **restarts at 1 in each category**
+- Numbering is **sequential across all categories**
 - Within a category, findings are sorted by severity: 🔴 first, then 🟠, 🟡, 🟢
 - Severity summary appears only in the Next Steps section (one line)
 
