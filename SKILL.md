@@ -135,10 +135,12 @@ Structure your review as follows:
    **Files:**
    - `file.ts:42`
    - `other.ts:15`
+
    **Description:** Explanation of issue. Exploitability and impact.
    ```ts
    dangerousCall(userInput)
    ```
+
    **Fix:** Suggested fix.
    ```ts
    sanitize(userInput)
@@ -148,10 +150,12 @@ Structure your review as follows:
    **Status:** 🟡 Medium
    **Files:**
    - `file.ts:10`
+
    **Description:** Explanation with context...
    ```ts
    value as SomeType
    ```
+
    **Fix:** Add guard.
    ```ts
    if (!value) return null;
@@ -163,10 +167,12 @@ Structure your review as follows:
    **Status:** 🟠 High
    **Files:**
    - `file.ts:42`
+
    **Description:** `useGodHook()` returns 12 fields but consumers use 2-3. Violates ISP.
    ```ts
    useGodHook()
    ```
+
    **Fix:** Split into focused hooks.
    ```ts
    useAuth(), useProfile()
@@ -178,10 +184,12 @@ Structure your review as follows:
    **Status:** 🟡 Medium
    **Files:**
    - `file.ts:42`
+
    **Description:** Nested iteration, degrades on large lists.
    ```ts
    items.forEach(() => list.find(...))
    ```
+
    **Fix:** Replace with Map lookup.
    ```ts
    const map = new Map(list.map(x => [x.id, x]))
@@ -193,10 +201,12 @@ Structure your review as follows:
    **Status:** 🟢 Low
    **Files:**
    - `file.ts:42`
+
    **Description:** Silently swallows error.
    ```ts
    catch (e) {}
    ```
+
    **Fix:** Add logging.
    ```ts
    catch (e) { logger.error(e); }
@@ -218,6 +228,7 @@ Structure your review as follows:
 - Severity summary appears only in the Next Steps section (one line)
 - Description MUST include actual code blocks (```ts) showing the problematic code fragment
 - Fix MUST include a code block with the suggested change when applicable
+- Add an empty line before **Description:** and before **Fix:** for visual separation
 - Separate findings with an empty line
 
 **Inline comments**: Use this format for file-specific findings:
