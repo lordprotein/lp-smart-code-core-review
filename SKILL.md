@@ -114,6 +114,8 @@ If no argument is provided → proceed to step 1 (default git diff review).
 
 ### 6) Output format
 
+Load `references/finding-format.md` for the per-finding template and formatting rules.
+
 Structure your review as follows:
 
 ````markdown
@@ -129,88 +131,16 @@ Structure your review as follows:
 **Units checked**: `useMyHook`, `MyComponent`, `utilFunction`, ...
 
 ### 🛡 Security & Reliability
-
-1. Brief title
-   **Status:** 🔴 Critical
-   **Files:**
-   - `file.ts:42`
-   - `other.ts:15`
-
-   **Description:** Explanation of issue. Exploitability and impact.
-   ```ts
-   dangerousCall(userInput)
-   ```
-
-   **Fix:** Suggested fix.
-   ```ts
-   sanitize(userInput)
-   ```
-
-2. Brief title
-   **Status:** 🟡 Medium
-   **Files:**
-   - `file.ts:10`
-
-   **Description:** Explanation with context...
-   ```ts
-   value as SomeType
-   ```
-
-   **Fix:** Add guard.
-   ```ts
-   if (!value) return null;
-   ```
+(findings formatted per finding-format.md template)
 
 ### 🏗 Architecture & SOLID
-
-1. Brief title
-   **Status:** 🟠 High
-   **Files:**
-   - `file.ts:42`
-
-   **Description:** `useGodHook()` returns 12 fields but consumers use 2-3. Violates ISP.
-   ```ts
-   useGodHook()
-   ```
-
-   **Fix:** Split into focused hooks.
-   ```ts
-   useAuth(), useProfile()
-   ```
+(findings formatted per finding-format.md template)
 
 ### ⚡ Performance
-
-1. Brief title — **O(n²)** / **leak** / **hot path**
-   **Status:** 🟡 Medium
-   **Files:**
-   - `file.ts:42`
-
-   **Description:** Nested iteration, degrades on large lists.
-   ```ts
-   items.forEach(() => list.find(...))
-   ```
-
-   **Fix:** Replace with Map lookup.
-   ```ts
-   const map = new Map(list.map(x => [x.id, x]))
-   ```
+(findings formatted per finding-format.md template)
 
 ### 🧹 Code Quality
-
-1. Brief title
-   **Status:** 🟢 Low
-   **Files:**
-   - `file.ts:42`
-
-   **Description:** Silently swallows error.
-   ```ts
-   catch (e) {}
-   ```
-
-   **Fix:** Add logging.
-   ```ts
-   catch (e) { logger.error(e); }
-   ```
+(findings formatted per finding-format.md template)
 
 ### 🗑 Removal Candidates
 (if applicable)
@@ -220,16 +150,6 @@ Structure your review as follows:
 ## Additional Suggestions
 (optional improvements, not blocking)
 ````
-
-**Format rules:**
-- Empty categories are **not rendered** (if no Security findings — no Security section)
-- Numbering **restarts at 1 in each category**
-- Within a category, findings are sorted by severity: 🔴 first, then 🟠, 🟡, 🟢
-- Severity summary appears only in the Next Steps section (one line)
-- Description MUST include actual code blocks (```ts) showing the problematic code fragment
-- Fix MUST include a code block with the suggested change when applicable
-- Add an empty line before **Description:** and before **Fix:** for visual separation
-- Separate findings with an empty line
 
 **Inline comments**: Use this format for file-specific findings:
 ```
@@ -270,6 +190,7 @@ I found X issues (🔴 Critical: _, 🟠 High: _, 🟡 Medium: _, 🟢 Low: _).
 
 | File | Purpose |
 |------|---------|
+| `finding-format.md` | Per-finding template, formatting rules, and examples by category |
 | `solid-checklist.md` | General SOLID smell prompts and refactor heuristics |
 | `solid-react-checklist.md` | React-specific SOLID patterns: god-hooks, wide interfaces, component anti-patterns |
 | `security-checklist.md` | Web/app security and runtime risk checklist |
