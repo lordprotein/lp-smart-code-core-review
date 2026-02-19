@@ -116,7 +116,7 @@ If no argument is provided → proceed to step 1 (default git diff review).
 
 Structure your review as follows:
 
-```markdown
+````markdown
 ## Code Review Summary
 
 **Files reviewed**: X files, Y lines changed
@@ -135,15 +135,27 @@ Structure your review as follows:
    **Files:**
    - `file.ts:42`
    - `other.ts:15`
-   Description of issue with code fragment: `dangerousCall(userInput)`. Exploitability and impact.
-   **Fix:** Suggested fix with code example: `sanitize(userInput)`.
+   **Description:** Explanation of issue. Exploitability and impact.
+   ```ts
+   dangerousCall(userInput)
+   ```
+   **Fix:** Suggested fix.
+   ```ts
+   sanitize(userInput)
+   ```
 
 2. Brief title
    **Status:** 🟡 Medium
    **Files:**
    - `file.ts:10`
-   Description with code: `value as SomeType` bypasses safety because...
-   **Fix:** Add guard: `if (!value) return null;`
+   **Description:** Explanation with context...
+   ```ts
+   value as SomeType
+   ```
+   **Fix:** Add guard.
+   ```ts
+   if (!value) return null;
+   ```
 
 ### 🏗 Architecture & SOLID
 
@@ -151,8 +163,14 @@ Structure your review as follows:
    **Status:** 🟠 High
    **Files:**
    - `file.ts:42`
-   Description with code: `useGodHook()` returns 12 fields but consumers use 2-3. Violates ISP.
-   **Fix:** Split into focused hooks: `useAuth()`, `useProfile()`.
+   **Description:** `useGodHook()` returns 12 fields but consumers use 2-3. Violates ISP.
+   ```ts
+   useGodHook()
+   ```
+   **Fix:** Split into focused hooks.
+   ```ts
+   useAuth(), useProfile()
+   ```
 
 ### ⚡ Performance
 
@@ -160,8 +178,14 @@ Structure your review as follows:
    **Status:** 🟡 Medium
    **Files:**
    - `file.ts:42`
-   Description with code: `items.forEach(() => list.find(...))` — nested iteration. Impact: degrades on large lists.
-   **Fix:** Replace with Map lookup: `const map = new Map(list.map(x => [x.id, x]))`.
+   **Description:** Nested iteration, degrades on large lists.
+   ```ts
+   items.forEach(() => list.find(...))
+   ```
+   **Fix:** Replace with Map lookup.
+   ```ts
+   const map = new Map(list.map(x => [x.id, x]))
+   ```
 
 ### 🧹 Code Quality
 
@@ -169,8 +193,14 @@ Structure your review as follows:
    **Status:** 🟢 Low
    **Files:**
    - `file.ts:42`
-   Description with code: `catch (e) {}` — silently swallows error.
-   **Fix:** Add logging: `catch (e) { logger.error(e); }`
+   **Description:** Silently swallows error.
+   ```ts
+   catch (e) {}
+   ```
+   **Fix:** Add logging.
+   ```ts
+   catch (e) { logger.error(e); }
+   ```
 
 ### 🗑 Removal Candidates
 (if applicable)
@@ -179,15 +209,16 @@ Structure your review as follows:
 
 ## Additional Suggestions
 (optional improvements, not blocking)
-```
+````
 
 **Format rules:**
 - Empty categories are **not rendered** (if no Security findings — no Security section)
 - Numbering **restarts at 1 in each category**
 - Within a category, findings are sorted by severity: 🔴 first, then 🟠, 🟡, 🟢
 - Severity summary appears only in the Next Steps section (one line)
-- Description MUST include inline code fragments showing the problematic code
-- Fix MUST include a code example of the suggested change when applicable
+- Description MUST include actual code blocks (```ts) showing the problematic code fragment
+- Fix MUST include a code block with the suggested change when applicable
+- Separate findings with an empty line
 
 **Inline comments**: Use this format for file-specific findings:
 ```
