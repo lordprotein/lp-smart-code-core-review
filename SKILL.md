@@ -68,7 +68,7 @@ If no argument is provided → proceed to step 1 (default git diff review).
 4. **OCP scan**: Search for hardcoded type/category/status checks in generic components (`if (type ===`, `switch(status)`, magic numbers with conditional display).
 5. **DIP scan**: Check if components import store slice internals directly vs. using abstraction hooks.
 6. **LSP scan**: Check for `as Type` casts bypassing type safety, ignored props, conditional children rendering.
-7. **Record findings** into a dedicated `## SOLID Audit` section in the output (see step 6 output format). This section is **required** even if no SOLID issues are found — in that case, state what code units were checked and that no violations were found.
+7. **Record findings** directly into the `## Findings` section with appropriate severity (P0–P3). SOLID violations are NOT separated into their own section — they are regular findings alongside security, quality, and other issues. The list of checked code units goes into the `**Units checked**` line at the top of Findings.
 
 - When you propose a refactor, explain *why* it improves cohesion/coupling and outline a minimal, safe split.
 - If refactor is non-trivial, propose an incremental plan instead of a large rewrite.
@@ -113,27 +113,9 @@ Structure your review as follows:
 
 ---
 
-## SOLID Audit
-
-> This section is MANDATORY. List code units inventoried and findings per principle.
-
-**Code units reviewed**: (list hooks, components, utilities that were analyzed)
-
-| Code Unit | SRP | ISP | OCP | DIP | LSP | Verdict |
-|-----------|-----|-----|-----|-----|-----|---------|
-| `useMyHook` | Multiple responsibilities: fetch + filter + reset | 3 consumers use 2/6 fields each | — | — | — | P1 |
-| `MyComponent` | — | — | Hardcoded type check | — | `as Type` cast | P2 |
-
-**Table rules:**
-- Never write "OK" in cells — use "—" when a principle has no violations
-- Only include code units that have at least one violation (Verdict ≠ Clean)
-- Code units with no violations are omitted from the table entirely
-
-(For each flagged unit, provide a brief description of the violation and suggested fix below the table)
-
----
-
 ## Findings
+
+**Units checked**: `useMyHook`, `MyComponent`, `utilFunction`, ... (all hooks, components, and utilities that were systematically analyzed for SOLID, security, and quality)
 
 ### P0 - Critical
 (none or list)
@@ -141,6 +123,7 @@ Structure your review as follows:
 ### P1 - High
 1. **[file:line]** Brief title
   - Description of issue
+  - Which principle violated (SRP/OCP/LSP/ISP/DIP) if applicable
   - Suggested fix
 
 ### P2 - Medium
