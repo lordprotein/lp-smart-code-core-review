@@ -2,9 +2,9 @@
 
 ## Priority Levels
 
-- [ ] **P0**: Immediate removal needed (security risk, significant cost, blocking other work)
-- [ ] **P1**: Remove in current sprint
-- [ ] **P2**: Backlog / next iteration
+- [ ] **🔴 Critical**: Immediate removal needed (security risk, significant cost, blocking other work)
+- [ ] **🟠 High**: Remove in current sprint
+- [ ] **🟡 Medium**: Backlog / next iteration
 
 ---
 

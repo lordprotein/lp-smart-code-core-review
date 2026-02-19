@@ -56,17 +56,17 @@ The argument is interpreted flexibly — it can be a file path, folder, class/fu
 4. **Security Scan** - Vulnerability detection
 5. **Code Quality** - Error handling, boundaries
 5.5. **Performance** - Complexity, memory leaks, CPU, I/O, caching
-6. **Output** - Findings by severity (P0-P3) + dedicated Performance section
+6. **Output** - Findings by category (Security, Architecture, Performance, Quality) with severity badges
 7. **Confirmation** - Ask user before implementing fixes
 
 ## Severity Levels
 
-| Level | Name | Action |
-|-------|------|--------|
-| P0 | Critical | Must block merge |
-| P1 | High | Should fix before merge |
-| P2 | Medium | Fix or create follow-up |
-| P3 | Low | Optional improvement |
+| Badge | Level | Action |
+|-------|-------|--------|
+| 🔴 | Critical | Must block merge |
+| 🟠 | High | Should fix before merge |
+| 🟡 | Medium | Fix or create follow-up |
+| 🟢 | Low | Optional improvement |
 
 ## Structure
 

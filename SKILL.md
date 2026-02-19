@@ -16,12 +16,12 @@ Perform a structured code review with focus on SOLID, architecture, removal cand
 
 ## Severity Levels
 
-| Level | Name | Description | Action |
-|-------|------|-------------|--------|
-| **P0** | Critical | Security vulnerability, data loss risk, correctness bug | Must block merge |
-| **P1** | High | Logic error, significant SOLID violation, performance regression | Should fix before merge |
-| **P2** | Medium | Code smell, maintainability concern, minor SOLID violation | Fix in this PR or create follow-up |
-| **P3** | Low | Style, naming, minor suggestion | Optional improvement |
+| Badge | Level | Description | Action |
+|-------|-------|-------------|--------|
+| 🔴 | **Critical** | Security vulnerability, data loss risk, correctness bug | Must block merge |
+| 🟠 | **High** | Logic error, significant SOLID violation, performance regression | Should fix before merge |
+| 🟡 | **Medium** | Code smell, maintainability concern, minor SOLID violation | Fix in this PR or create follow-up |
+| 🟢 | **Low** | Style, naming, minor suggestion | Optional improvement |
 
 ## Workflow
 
@@ -68,7 +68,7 @@ If no argument is provided → proceed to step 1 (default git diff review).
 4. **OCP scan**: Search for hardcoded type/category/status checks in generic components (`if (type ===`, `switch(status)`, magic numbers with conditional display).
 5. **DIP scan**: Check if components import store slice internals directly vs. using abstraction hooks.
 6. **LSP scan**: Check for `as Type` casts bypassing type safety, ignored props, conditional children rendering.
-7. **Record findings** directly into the `## Findings` section with appropriate severity (P0–P3). SOLID violations are NOT separated into their own section — they are regular findings alongside security, quality, and other issues. The list of checked code units goes into the `**Units checked**` line at the top of Findings.
+7. **Record findings** directly into the `## Findings` section with appropriate severity (Critical/High/Medium/Low). SOLID violations are NOT separated into their own section — they are regular findings alongside security, quality, and other issues. The list of checked code units goes into the `**Units checked**` line at the top of Findings.
 
 - When you propose a refactor, explain *why* it improves cohesion/coupling and outline a minimal, safe split.
 - If refactor is non-trivial, propose an incremental plan instead of a large rewrite.
@@ -110,7 +110,7 @@ If no argument is provided → proceed to step 1 (default git diff review).
   - **Database & I/O**: N+1 queries, over-fetching, missing pagination, missing indexes
   - **Caching**: missing cache, no TTL, no invalidation, key collisions
 - For each finding, estimate impact: note input size sensitivity and expected degradation pattern.
-- All performance findings go into the dedicated `## Performance` section of the output (not into general Findings).
+- All performance findings go into the `### ⚡ Performance` category within the `## Findings` section.
 
 ### 6) Output format
 
@@ -126,50 +126,55 @@ Structure your review as follows:
 
 ## Findings
 
-**Units checked**: `useMyHook`, `MyComponent`, `utilFunction`, ... (all hooks, components, and utilities that were systematically analyzed for SOLID, security, and quality)
+**Units checked**: `useMyHook`, `MyComponent`, `utilFunction`, ...
 
-### P0 - Critical
-(none or list)
+### 🛡 Security & Reliability
 
-### P1 - High
-1. **[file:line]** Brief title
-  - Description of issue
-  - Which principle violated (SRP/OCP/LSP/ISP/DIP) if applicable
-  - Suggested fix
-
-### P2 - Medium
-2. (continue numbering across sections)
-  - ...
-
-### P3 - Low
-...
-
----
-
-## Performance
-
-**Complexity issues**: (none or list)
-**Memory & resource leaks**: (none or list)
-**I/O & caching**: (none or list)
-
-Each finding format:
-1. **[file:line]** Brief title — **O(n²)** / **leak** / **hot path** / etc.
-   - Description: what happens, under what conditions
-   - Impact: how it degrades (e.g., "quadratic growth with input size")
+1. **[file:line]** Brief title — 🔴 Critical
+   - Description of issue
+   - Exploitability and impact
    - Suggested fix
 
----
+2. **[file:line]** Brief title — 🟡 Medium
+   - Description...
 
-## Removal/Iteration Plan
+### 🏗 Architecture & SOLID
+
+3. **[file:line]** Brief title — 🟠 High
+   - Description of issue
+   - Which principle violated (SRP/OCP/LSP/ISP/DIP)
+   - Suggested fix
+
+### ⚡ Performance
+
+4. **[file:line]** Brief title — 🟡 Medium — **O(n²)** / **leak** / **hot path**
+   - Description: what happens, under what conditions
+   - Impact: how it degrades
+   - Suggested fix
+
+### 🧹 Code Quality
+
+5. **[file:line]** Brief title — 🟢 Low
+   - Description...
+
+### 🗑 Removal Candidates
 (if applicable)
+
+---
 
 ## Additional Suggestions
 (optional improvements, not blocking)
 ```
 
+**Format rules:**
+- Empty categories are **not rendered** (if no Security findings — no Security section)
+- Numbering is **sequential across all categories**
+- Within a category, findings are sorted by severity: 🔴 first, then 🟠, 🟡, 🟢
+- Severity summary appears only in the Next Steps section (one line)
+
 **Inline comments**: Use this format for file-specific findings:
 ```
-::code-comment{file="path/to/file.ts" line="42" severity="P1"}
+::code-comment{file="path/to/file.ts" line="42" severity="high"}
 Description of the issue and suggested fix.
 ::
 ```
@@ -188,16 +193,14 @@ After presenting findings, ask user how to proceed:
 
 ## Next Steps
 
-I found X issues (P0: _, P1: _, P2: _, P3: _).
+I found X issues (🔴 Critical: _, 🟠 High: _, 🟡 Medium: _, 🟢 Low: _).
 
 **How would you like to proceed?**
 
 1. **Fix all** - I'll implement all suggested fixes
-2. **Fix P0/P1 only** - Address critical and high priority issues
+2. **Fix Critical/High only** - Address 🔴 and 🟠 issues
 3. **Fix specific items** - Tell me which issues to fix
 4. **No changes** - Review complete, no implementation needed
-
-Please choose an option or provide specific instructions.
 ```
 
 **Important**: Do NOT implement any changes until user explicitly confirms. This is a review-first workflow.
