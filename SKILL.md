@@ -130,32 +130,47 @@ Structure your review as follows:
 
 ### 🛡 Security & Reliability
 
-1. **[file:line]** Brief title — 🔴 Critical
-   - Description of issue
-   - Exploitability and impact
-   - Suggested fix
+1. Brief title
+   **Status:** 🔴 Critical
+   **Files:**
+   - `file.ts:42`
+   - `other.ts:15`
+   Description of issue with code fragment: `dangerousCall(userInput)`. Exploitability and impact.
+   **Fix:** Suggested fix with code example: `sanitize(userInput)`.
 
-2. **[file:line]** Brief title — 🟡 Medium
-   - Description...
+2. Brief title
+   **Status:** 🟡 Medium
+   **Files:**
+   - `file.ts:10`
+   Description with code: `value as SomeType` bypasses safety because...
+   **Fix:** Add guard: `if (!value) return null;`
 
 ### 🏗 Architecture & SOLID
 
-3. **[file:line]** Brief title — 🟠 High
-   - Description of issue
-   - Which principle violated (SRP/OCP/LSP/ISP/DIP)
-   - Suggested fix
+1. Brief title
+   **Status:** 🟠 High
+   **Files:**
+   - `file.ts:42`
+   Description with code: `useGodHook()` returns 12 fields but consumers use 2-3. Violates ISP.
+   **Fix:** Split into focused hooks: `useAuth()`, `useProfile()`.
 
 ### ⚡ Performance
 
-4. **[file:line]** Brief title — 🟡 Medium — **O(n²)** / **leak** / **hot path**
-   - Description: what happens, under what conditions
-   - Impact: how it degrades
-   - Suggested fix
+1. Brief title — **O(n²)** / **leak** / **hot path**
+   **Status:** 🟡 Medium
+   **Files:**
+   - `file.ts:42`
+   Description with code: `items.forEach(() => list.find(...))` — nested iteration. Impact: degrades on large lists.
+   **Fix:** Replace with Map lookup: `const map = new Map(list.map(x => [x.id, x]))`.
 
 ### 🧹 Code Quality
 
-5. **[file:line]** Brief title — 🟢 Low
-   - Description...
+1. Brief title
+   **Status:** 🟢 Low
+   **Files:**
+   - `file.ts:42`
+   Description with code: `catch (e) {}` — silently swallows error.
+   **Fix:** Add logging: `catch (e) { logger.error(e); }`
 
 ### 🗑 Removal Candidates
 (if applicable)
@@ -168,9 +183,11 @@ Structure your review as follows:
 
 **Format rules:**
 - Empty categories are **not rendered** (if no Security findings — no Security section)
-- Numbering is **sequential across all categories**
+- Numbering **restarts at 1 in each category**
 - Within a category, findings are sorted by severity: 🔴 first, then 🟠, 🟡, 🟢
 - Severity summary appears only in the Next Steps section (one line)
+- Description MUST include inline code fragments showing the problematic code
+- Fix MUST include a code example of the suggested change when applicable
 
 **Inline comments**: Use this format for file-specific findings:
 ```
