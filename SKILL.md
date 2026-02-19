@@ -57,13 +57,19 @@ If no argument is provided → proceed to step 1 (default git diff review).
 
 ### 2) SOLID + architecture smells
 
-- Load `references/solid-checklist.md` for specific prompts.
-- Look for:
-  - **SRP**: Overloaded modules with unrelated responsibilities.
-  - **OCP**: Frequent edits to add behavior instead of extension points.
-  - **LSP**: Subclasses that break expectations or require type checks.
-  - **ISP**: Wide interfaces with unused methods.
-  - **DIP**: High-level logic tied to low-level implementations.
+- Load `references/solid-checklist.md` for general SOLID prompts.
+- **If the project uses React**: also load `references/solid-react-checklist.md` for React-specific patterns (god-hooks, wide hook interfaces, component anti-patterns).
+
+**MANDATORY procedure** — do NOT skip this, do NOT merge SOLID findings into general findings:
+
+1. **Inventory**: List all major code units in scope (hooks, components, utility modules). Write them down.
+2. **SRP scan**: For each hook and component from the inventory, answer: *"What is the single reason this would change?"* If the answer contains "and" — flag it.
+3. **ISP scan**: For each hook that returns an object with 3+ fields, list its consumers and check which fields each consumer uses. If no consumer uses >60% of fields — flag it.
+4. **OCP scan**: Search for hardcoded type/category/status checks in generic components (`if (type ===`, `switch(status)`, magic numbers with conditional display).
+5. **DIP scan**: Check if components import store slice internals directly vs. using abstraction hooks.
+6. **LSP scan**: Check for `as Type` casts bypassing type safety, ignored props, conditional children rendering.
+7. **Record findings** into a dedicated `## SOLID Audit` section in the output (see step 6 output format). This section is **required** even if no SOLID issues are found — in that case, list what was checked.
+
 - When you propose a refactor, explain *why* it improves cohesion/coupling and outline a minimal, safe split.
 - If refactor is non-trivial, propose an incremental plan instead of a large rewrite.
 
@@ -104,6 +110,22 @@ Structure your review as follows:
 
 **Files reviewed**: X files, Y lines changed
 **Overall assessment**: [APPROVE / REQUEST_CHANGES / COMMENT]
+
+---
+
+## SOLID Audit
+
+> This section is MANDATORY. List code units inventoried and findings per principle.
+
+**Code units reviewed**: (list hooks, components, utilities that were analyzed)
+
+| Code Unit | SRP | ISP | OCP | DIP | LSP | Verdict |
+|-----------|-----|-----|-----|-----|-----|---------|
+| `useMyHook` | Multiple responsibilities: fetch + filter + reset | 3 consumers use 2/6 fields each | — | — | — | P1 |
+| `MyComponent` | OK | — | Hardcoded type check | — | `as Type` cast | P2 |
+| `utilFunction` | OK | — | OK | — | — | Clean |
+
+(For each flagged unit, provide a brief description of the violation and suggested fix below the table)
 
 ---
 
@@ -174,7 +196,8 @@ Please choose an option or provide specific instructions.
 
 | File | Purpose |
 |------|---------|
-| `solid-checklist.md` | SOLID smell prompts and refactor heuristics |
+| `solid-checklist.md` | General SOLID smell prompts and refactor heuristics |
+| `solid-react-checklist.md` | React-specific SOLID patterns: god-hooks, wide interfaces, component anti-patterns |
 | `security-checklist.md` | Web/app security and runtime risk checklist |
 | `code-quality-checklist.md` | Error handling, performance, boundary conditions |
 | `removal-plan.md` | Template for deletion candidates and follow-up plan |
