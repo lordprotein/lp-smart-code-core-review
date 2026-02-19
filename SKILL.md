@@ -131,35 +131,35 @@ Structure your review as follows:
 ### 🛡 Security & Reliability
 
 1. 🔴 Critical | Brief title
-   **Files:** `file.ts:42`
-   Description of issue. Exploitability and impact.
-   **Fix:** Suggested fix
+   **Files:** `file.ts:42`, `other.ts:15`
+   Description of issue with relevant code fragment: `dangerousCall(userInput)`. Exploitability and impact.
+   **Fix:** Suggested fix with code example: `sanitize(userInput)`.
 
 2. 🟡 Medium | Brief title
    **Files:** `file.ts:10`
-   Description...
-   **Fix:** ...
+   Description with code: `value as SomeType` bypasses safety because...
+   **Fix:** Add guard: `if (!value) return null;`
 
 ### 🏗 Architecture & SOLID
 
 1. 🟠 High | Brief title
    **Files:** `file.ts:42`
-   Description. Which principle violated (SRP/OCP/LSP/ISP/DIP).
-   **Fix:** Suggested fix
+   Description with code: `useGodHook()` returns 12 fields but consumers use 2-3. Violates ISP.
+   **Fix:** Split into focused hooks: `useAuth()`, `useProfile()`.
 
 ### ⚡ Performance
 
 1. 🟡 Medium | Brief title — **O(n²)** / **leak** / **hot path**
    **Files:** `file.ts:42`
-   Description: what happens, under what conditions. Impact: how it degrades.
-   **Fix:** Suggested fix
+   Description with code: `items.forEach(() => list.find(...))` — nested iteration. Impact: degrades on large lists.
+   **Fix:** Replace with Map lookup: `const map = new Map(list.map(x => [x.id, x]))`.
 
 ### 🧹 Code Quality
 
 1. 🟢 Low | Brief title
    **Files:** `file.ts:42`
-   Description...
-   **Fix:** ...
+   Description with code: `catch (e) {}` — silently swallows error.
+   **Fix:** Add logging: `catch (e) { logger.error(e); }`
 
 ### 🗑 Removal Candidates
 (if applicable)
@@ -175,6 +175,8 @@ Structure your review as follows:
 - Numbering **restarts at 1 in each category**
 - Within a category, findings are sorted by severity: 🔴 first, then 🟠, 🟡, 🟢
 - Severity summary appears only in the Next Steps section (one line)
+- Description MUST include inline code fragments showing the problematic code
+- Fix MUST include a code example of the suggested change when applicable
 
 **Inline comments**: Use this format for file-specific findings:
 ```
